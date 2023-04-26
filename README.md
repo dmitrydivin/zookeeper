@@ -1,4 +1,4 @@
-# Zookeeper on the Tarantool
+# Proof of concept Zookeeper on the Tarantool
 Supported the following commands
 
 - `get <options> <path>` - get value by path
