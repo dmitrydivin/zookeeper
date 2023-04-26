@@ -4,8 +4,8 @@ local fiber = require('fiber')
 local log = require('log')
 local socket = require('socket')
 
-local subscription_channel = fiber.channel(200)
-local write_commands_channel = fiber.channel(200)
+local subscription_channel = fiber.channel(1000)
+local write_commands_channel = fiber.channel(1000)
 local read_commands_channel = fiber.channel(100)
 
 local statistics = { writes = 0, reads = 0, time = fiber.time()}
@@ -116,7 +116,7 @@ end
 local subscription_observer = SubscriptionObserver:new()
 local write_observer = SimpleObserver:new()
 
-for i = 1, 200 do
+for i = 1, 500 do
     fiber.create(function()
         while true do
             local data = subscription_channel:get()
@@ -157,7 +157,7 @@ end
 
 local space = box.space.fs
 
-for i = 1, 200 do
+for i = 1, 500 do
     fiber.create(function()
         while true do
             local request = write_commands_channel:get()
