@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+  tarantool1:
+    image: tarantool/tarantool:latest
+    volumes:
+      - ./tarantool/master.lua:/opt/tarantool/master.lua
+    command: [ 'tarantool', '/opt/tarantool/master.lua' ]
+    environment:
+      TARANTOOL_REPLICATION: "tarantool1,tarantool2"
+    networks:
+      - mynet
+    ports:
+      - "3301:3301"
+      - "3311:3311"
+  tarantool2:
+    image: tarantool/tarantool:latest
+    volumes:
+      - ./tarantool/master.lua:/opt/tarantool/master.lua
+    command: [ 'tarantool', '/opt/tarantool/master.lua' ]
+    environment:
+      TARANTOOL_REPLICATION: "tarantool1,tarantool2"
+    networks:
+      - mynet
+    ports:
+      - "3302:3301"
+      - "3312:3311"
+
+networks:
+  mynet:
+    driver: bridge
